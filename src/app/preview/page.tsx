@@ -2,6 +2,16 @@ import Link from "next/link";
 
 const sections = [
   {
+    slug: "environments",
+    eyebrow: "Environments",
+    title: "Clone production. Break things safely.",
+    desc: "Environments-as-a-service pitch. Parent prod env + multiple ephemeral clones (PR previews, load tests, migration rehearsals, demos, A/B infra tests). Per-minute billing, two-command workflow, auto-destroy when idle.",
+    home: "Between How it works and Global Edge Network",
+    icon: "🌱",
+    accent: "bg-gradient-to-br from-teal-50 to-emerald-100",
+    tags: ["Product", "Flagship", "DX"],
+  },
+  {
     slug: "cli",
     eyebrow: "CLI",
     title: "Six commands to ship",
