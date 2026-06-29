@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { PreviewShell } from "../../../components/preview/PreviewShell";
 import { CountUp } from "../../../components/preview/CountUp";
@@ -41,38 +40,12 @@ const stats = [
   },
 ];
 
-const liveFeedSeed = [
-  { repo: "saas-frontend", user: "ayesha", region: "fra1", status: "live", time: 2 },
-  { repo: "billing-api", user: "marcus", region: "fra1", status: "building", time: 8 },
-  { repo: "indie-blog", user: "priya", region: "fra1", status: "live", time: 14 },
-  { repo: "discord-bot", user: "tom", region: "fra1", status: "live", time: 27 },
-  { repo: "ml-inference", user: "diego", region: "fra1", status: "live", time: 41 },
-  { repo: "static-portfolio", user: "neha", region: "fra1", status: "live", time: 58 },
-  { repo: "webhook-router", user: "leo", region: "fra1", status: "live", time: 73 },
-];
-
 export default function LiveStatsPreview() {
-  const [feed, setFeed] = useState(liveFeedSeed);
-  const [tick, setTick] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setFeed((prev) => {
-        const next = [...prev];
-        const head = next.shift();
-        if (head) next.push({ ...head, time: head.time + Math.floor(Math.random() * 30) + 10 });
-        return next;
-      });
-      setTick((t) => t + 1);
-    }, 3500);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <PreviewShell
       eyebrow="Live Pulse"
       title="Live platform stats"
-      description="Animated counters that count up the first time they scroll into view, plus a fake 'live deploys' feed that rotates every few seconds. Numbers below are placeholders — swap in your real platform stats before promoting."
+      description="Four headline counters that count up the first time they scroll into view. The numbers below are placeholders — on the real home page they would hydrate from a stats API and be cached at the edge with ISR."
     >
       {/* THE CANDIDATE SECTION */}
       <section className="relative bg-[#0F172A] py-32 px-6 overflow-hidden text-white">
@@ -103,7 +76,7 @@ export default function LiveStatsPreview() {
           </div>
 
           {/* Counter grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s, i) => (
               <motion.div
                 key={s.label}
@@ -125,55 +98,8 @@ export default function LiveStatsPreview() {
             ))}
           </div>
 
-          {/* Live deploy feed */}
-          <div className="bg-[#1E293B]/60 border border-white/10 rounded-3xl backdrop-blur-md overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <span className="text-[14px] font-bold uppercase tracking-widest text-white">Live deploy feed</span>
-                <span className="text-[11px] bg-green-500/20 text-green-300 px-2 py-0.5 rounded-full font-bold border border-green-500/30">STREAMING</span>
-              </div>
-              <span className="text-[12px] text-slate-400 font-mono">tick #{tick}</span>
-            </div>
-            <div className="divide-y divide-white/5">
-              {feed.slice(0, 5).map((entry, i) => (
-                <motion.div
-                  key={`${entry.repo}-${tick}-${i}`}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="px-6 py-4 flex items-center gap-4 font-mono text-[13px]"
-                >
-                  <div className="flex items-center gap-2 w-24 shrink-0">
-                    {entry.status === "live" ? (
-                      <>
-                        <span className="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
-                        <span className="text-green-400 font-bold uppercase text-[11px] tracking-widest">Live</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span className="text-amber-300 font-bold uppercase text-[11px] tracking-widest">Build</span>
-                      </>
-                    )}
-                  </div>
-                  <span className="text-slate-300 truncate flex-1">
-                    <span className="text-white/80">@{entry.user}</span>
-                    <span className="text-slate-500"> pushed </span>
-                    <span className="text-brand-light">{entry.repo}</span>
-                  </span>
-                  <span className="text-slate-500 hidden sm:inline">{entry.region}</span>
-                  <span className="text-slate-500 w-16 text-right">{entry.time}s ago</span>
-                </motion.div>
-              ))}
-            </div>
-            <div className="px-6 py-3 bg-black/20 text-[12px] text-slate-500 flex items-center justify-between">
-              <span>Auto-refreshing every 3.5s</span>
-              <span className="text-slate-400 hover:text-white cursor-pointer transition-colors">View status page &rarr;</span>
-            </div>
-          </div>
-
-          <p className="text-center text-[12px] text-slate-500 mt-8">
-            Numbers reset on every page load (this is a preview). On the real home page they would hydrate from a metrics endpoint or be cached at the edge with ISR.
+          <p className="text-center text-[12px] text-slate-500 mt-10">
+            Counters re-animate on every page load (this is a preview). On the real home page they would hydrate from a stats API and be cached at the edge with ISR.
           </p>
         </div>
       </section>
@@ -184,9 +110,9 @@ export default function LiveStatsPreview() {
           <h3 className="text-[20px] font-bold text-text-heading mb-6">If we promote this</h3>
           <ul className="space-y-3 text-[14px] text-text-body">
             <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Insert between the Bento grid features (section 6) and Feature tabs (section 7) on the home page.</li>
-            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Wire counters to a real metrics endpoint (e.g. <code className="bg-bg-blue-tint text-brand text-[12px] px-1.5 py-0.5 rounded">/api/stats</code>) rendered server-side with ISR (revalidate every 60s).</li>
-            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Replace the fake live feed with the last N recently-completed deploys (with opt-in from customers, or use anonymised data).</li>
-            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>This section will <strong>replace</strong> the existing "2.4M+ Deployments / 35 Regions / 99.99% / &lt;3 min" fake stats banner.</li>
+            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Wire counters to the platform stats API (e.g. <code className="bg-bg-blue-tint text-brand text-[12px] px-1.5 py-0.5 rounded">/api/stats</code>) rendered server-side with ISR (revalidate every 60s) so the numbers stay fresh without a per-request fetch.</li>
+            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>This section will <strong>replace</strong> the existing &ldquo;2.4M+ Deployments / 35 Regions / 99.99% / &lt;3 min&rdquo; fake stats banner.</li>
+            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>If you want to add more counters later, just push more entries into the <code className="bg-bg-blue-tint text-brand text-[12px] px-1.5 py-0.5 rounded">stats</code> array at the top of this file &mdash; the grid is responsive (2 cols on mobile, 4 on desktop).</li>
           </ul>
         </div>
       </section>

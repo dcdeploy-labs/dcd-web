@@ -14,8 +14,8 @@ const sections = [
   {
     slug: "live-stats",
     eyebrow: "Live Pulse",
-    title: "Live platform stats",
-    desc: "Animated, count-up counters showing requests served, deployments, services running, and uptime. Optionally with a real-time deploy feed.",
+    title: "Platform stats",
+    desc: "Four animated count-up counters showing requests served, deployments, services running, and uptime. Hydrate from the stats API at build/revalidate time.",
     home: "Add as section between Bento grid and Feature tabs",
     icon: "📈",
     accent: "bg-gradient-to-br from-blue-50 to-blue-100",
