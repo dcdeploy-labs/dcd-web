@@ -1,8 +1,8 @@
 # Robust Dockerfile for Next.js with Native Modules
-FROM node:20 AS builder
+FROM node:22 AS builder
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Install pnpm (pinned — pnpm 11+ requires Node >= 22.13)
+RUN corepack enable && corepack prepare pnpm@10.33.3 --activate
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm run build
 
 # Runner stage
-FROM node:20-slim AS runner
+FROM node:22-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
