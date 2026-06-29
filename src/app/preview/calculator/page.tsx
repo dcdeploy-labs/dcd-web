@@ -4,21 +4,31 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PreviewShell } from "../../../components/preview/PreviewShell";
+import { CurrencyToggle, formatCurrency, useCurrency } from "../../../lib/currency";
 
-const MACHINES = [
-  { id: "DCD-1", ram: 0.25, vcpu: 1, perMin: 0.0019, monthly: 85 },
-  { id: "DCD-2", ram: 0.5, vcpu: 1, perMin: 0.0039, monthly: 170 },
-  { id: "DCD-3", ram: 1, vcpu: 1, perMin: 0.0078, monthly: 340 },
-  { id: "DCD-4", ram: 2, vcpu: 1, perMin: 0.0137, monthly: 595 },
-  { id: "DCD-5", ram: 4, vcpu: 2, perMin: 0.0275, monthly: 1190 },
-  { id: "DCD-6", ram: 8, vcpu: 4, perMin: 0.0550, monthly: 2380 }
+interface Machine {
+  id: string;
+  ram: number;
+  vcpu: number;
+  perMin: { INR: number; USD: number };
+  monthly: { INR: number; USD: number };
+}
+
+const MACHINES: Machine[] = [
+  { id: "DCD-1", ram: 0.25, vcpu: 1, perMin: { INR: 0.0019, USD: 0.000022 }, monthly: { INR: 85, USD: 1 } },
+  { id: "DCD-2", ram: 0.5,  vcpu: 1, perMin: { INR: 0.0039, USD: 0.000046 }, monthly: { INR: 170, USD: 2 } },
+  { id: "DCD-3", ram: 1,    vcpu: 1, perMin: { INR: 0.0078, USD: 0.000092 }, monthly: { INR: 340, USD: 4 } },
+  { id: "DCD-4", ram: 2,    vcpu: 1, perMin: { INR: 0.0137, USD: 0.00016  }, monthly: { INR: 595, USD: 7 } },
+  { id: "DCD-5", ram: 4,    vcpu: 2, perMin: { INR: 0.0275, USD: 0.00032  }, monthly: { INR: 1190, USD: 14 } },
+  { id: "DCD-6", ram: 8,    vcpu: 4, perMin: { INR: 0.0550, USD: 0.00065  }, monthly: { INR: 2380, USD: 28 } },
 ];
 
-function pickMachine(ramGB: number) {
+function pickMachine(ramGB: number): Machine {
   return MACHINES.find((m) => m.ram >= ramGB) ?? MACHINES[MACHINES.length - 1];
 }
 
 export default function CalculatorPreview() {
+  const { currency } = useCurrency();
   const [services, setServices] = useState(2);
   const [ram, setRam] = useState(0.5);
   const [uptime, setUptime] = useState(80);
@@ -30,15 +40,16 @@ export default function CalculatorPreview() {
       return { isFree: true, monthly: 0, perMinute: 0, scaleToZeroSavings: 0, machine };
     }
     const minutesPerMonth = 43_800 * (uptime / 100);
-    const perServiceCost = machine.perMin * minutesPerMonth;
-    const monthly = perServiceCost * services;
-    const fullUptimeCost = machine.perMin * 43_800 * services;
+    const perMin = machine.perMin[currency];
+    const monthly = perMin * minutesPerMonth * services;
+    const fullUptimeCost = perMin * 43_800 * services;
     const scaleToZeroSavings = Math.max(0, fullUptimeCost - monthly);
-    return { isFree: false, monthly, perMinute: machine.perMin, scaleToZeroSavings, machine };
-  }, [services, ram, uptime, machine]);
+    return { isFree: false, monthly, perMinute: perMin, scaleToZeroSavings, machine };
+  }, [services, ram, uptime, machine, currency]);
 
-  const formatINR = (n: number) =>
-    `₹${n.toLocaleString("en-IN", { maximumFractionDigits: 0 })}`;
+  const fmtMoney = (n: number) => formatCurrency(Math.round(n), currency);
+  const fmtPerMin = (n: number) =>
+    currency === "INR" ? `\u20b9${n.toFixed(4)}` : `$${n.toFixed(7)}`;
 
   return (
     <PreviewShell
@@ -50,16 +61,17 @@ export default function CalculatorPreview() {
         <div className="absolute inset-0 bg-gradient-to-b from-bg-blue-tint/40 via-white to-bg-blue-tint/40 pointer-events-none"></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <div className="bg-brand-pale text-brand text-[13px] font-bold px-4 py-1.5 rounded-full inline-block mb-6 uppercase tracking-widest border border-border-blue">
               Pricing calculator
             </div>
             <h2 className="text-[36px] md:text-[52px] font-heading font-bold text-text-heading mb-6 leading-tight">
               See your bill <span className="gradient-text">before</span> you sign up.
             </h2>
-            <p className="text-[18px] text-text-body max-w-2xl mx-auto leading-[1.7]">
+            <p className="text-[18px] text-text-body max-w-2xl mx-auto leading-[1.7] mb-8">
               Drag the sliders. We compute what you'd actually pay, on the cheapest machine size that fits.
             </p>
+            <CurrencyToggle size="sm" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -150,7 +162,7 @@ export default function CalculatorPreview() {
 
                 {cost.isFree ? (
                   <>
-                    <div className="text-[64px] font-heading font-extrabold leading-none mb-2">₹0</div>
+                    <div className="text-[64px] font-heading font-extrabold leading-none mb-2">{formatCurrency(0, currency)}</div>
                     <div className="text-[14px] opacity-80 mb-6">/month &mdash; fits the free Basic plan.</div>
                     <div className="bg-white/10 border border-white/20 rounded-2xl p-4 backdrop-blur-md mb-6">
                       <div className="text-[13px] font-bold mb-2">Why it's free</div>
@@ -164,11 +176,11 @@ export default function CalculatorPreview() {
                 ) : (
                   <>
                     <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-[64px] font-heading font-extrabold leading-none">{formatINR(cost.monthly)}</span>
+                      <span className="text-[64px] font-heading font-extrabold leading-none">{fmtMoney(cost.monthly)}</span>
                       <span className="text-[14px] opacity-80">/month</span>
                     </div>
                     <div className="text-[13px] opacity-80 mb-6">
-                      That's <span className="font-mono font-bold">₹{cost.perMinute.toFixed(4)}</span> per minute, per service, on <span className="font-bold">{cost.machine.id}</span>.
+                      That's <span className="font-mono font-bold">{fmtPerMin(cost.perMinute)}</span> per minute, per service, on <span className="font-bold">{cost.machine.id}</span>.
                     </div>
 
                     {cost.scaleToZeroSavings > 0 && (
@@ -178,7 +190,7 @@ export default function CalculatorPreview() {
                           Scale-to-zero savings
                         </div>
                         <div className="text-[12px] opacity-90">
-                          You'd pay <span className="font-mono font-bold">{formatINR(cost.scaleToZeroSavings)}</span> less per month vs always-on, because we don't charge for idle minutes.
+                          You'd pay <span className="font-mono font-bold">{fmtMoney(cost.scaleToZeroSavings)}</span> less per month vs always-on, because we don't charge for idle minutes.
                         </div>
                       </div>
                     )}
@@ -209,7 +221,7 @@ export default function CalculatorPreview() {
             <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Insert directly after the Free Tier Spotlight on the home page (because the free tier is the answer for the smallest users; this is the answer for everyone else).</li>
             <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Machine SKUs (DCD-1…DCD-6) and pricing live in this file. Pull them from the same source of truth as /pricing.</li>
             <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Add a 4th slider for bandwidth / requests if the per-request cost is material.</li>
-            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Consider a USD toggle (the existing /pricing page has INR + USD).</li>
+            <li className="flex gap-3"><span className="text-brand font-bold shrink-0">→</span>Currency toggle is wired to the shared <code className="bg-bg-blue-tint text-brand text-[12px] px-1.5 py-0.5 rounded">useCurrency</code> hook &mdash; auto-INR for users in <code className="bg-bg-blue-tint text-brand text-[12px] px-1.5 py-0.5 rounded">Asia/Kolkata</code>, USD everywhere else, persisted to localStorage.</li>
           </ul>
         </div>
       </section>

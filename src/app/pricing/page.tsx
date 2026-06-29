@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCurrency } from "../../lib/currency";
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(false);
-  const [currency, setCurrency] = useState<"USD" | "INR">("INR");
+  const { currency, setCurrency } = useCurrency();
 
   // Calculator State
   const [services, setServices] = useState(3);

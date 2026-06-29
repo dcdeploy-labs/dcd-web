@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { PreviewShell } from "../../../components/preview/PreviewShell";
+import { useCurrency } from "../../../lib/currency";
 
 const phases = [
   { phase: "Phase 1", title: "In-house microVM runtime", status: "building", note: "Forked Firecracker tuned for small-memory workloads. Sub-50ms boot times." },
@@ -28,6 +31,9 @@ function statusLabel(status: string) {
 }
 
 export default function VoidrunPreview() {
+  const { currency } = useCurrency();
+  const starterPrice = currency === "INR" ? "\u20b9425/mo" : "$5/mo";
+
   return (
     <PreviewShell
       eyebrow="Voidrun · Roadmap"
@@ -121,7 +127,7 @@ export default function VoidrunPreview() {
               </li>
               <li className="flex gap-3">
                 <span className="text-amber-300 font-bold shrink-0">&middot;</span>
-                <span><strong className="text-white">If you need always-on now:</strong> the new <Link href="/pricing" className="text-brand-light font-bold underline underline-offset-2 hover:text-white">Starter plan ($5/mo)</Link> guarantees it, with $3 of bundled compute credit.</span>
+                <span><strong className="text-white">If you need always-on now:</strong> the new <Link href="/pricing" className="text-brand-light font-bold underline underline-offset-2 hover:text-white">Starter plan ({starterPrice})</Link> guarantees it, with bundled compute credit each month.</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-amber-300 font-bold shrink-0">&middot;</span>

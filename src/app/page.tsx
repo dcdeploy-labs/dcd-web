@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import { CurrencyToggle, useCurrency } from "../lib/currency";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -18,7 +19,10 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState("Deploy");
   const [activeStep, setActiveStep] = useState(1);
   const tabs = ["Deploy", "Observe", "Scale", "Collaborate", "Secure"];
-  
+  const { currency } = useCurrency();
+  const isINR = currency === "INR";
+  const sym = isINR ? "\u20b9" : "$";
+
   const { scrollYProgress } = useScroll();
 
   const tabContent: Record<string, { checklist: string[], terminal: React.ReactNode }> = {
@@ -802,7 +806,7 @@ export default function Home() {
               {/* LEFT: What's included */}
               <div className="p-10 md:p-14">
                 <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-[64px] font-heading font-extrabold text-text-heading leading-none">&#8377;0</span>
+                  <span className="text-[64px] font-heading font-extrabold text-text-heading leading-none">{sym}0</span>
                   <span className="text-text-muted font-semibold text-[16px]">/forever</span>
                 </div>
                 <p className="text-[13px] text-text-muted font-semibold uppercase tracking-wider mb-8">Basic plan &mdash; no card on file</p>
@@ -866,23 +870,23 @@ export default function Home() {
                   </div>
                   <div className="flex justify-between mb-2">
                     <span className="text-text-body">DCD-1 &middot; 1 service</span>
-                    <span className="text-text-heading">&#8377;0.00</span>
+                    <span className="text-text-heading">{sym}0.00</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span className="text-text-body">Bandwidth (10 GB)</span>
-                    <span className="text-text-heading">&#8377;0.00</span>
+                    <span className="text-text-heading">{sym}0.00</span>
                   </div>
                   <div className="flex justify-between mb-2">
                     <span className="text-text-body">SSL &amp; subdomain</span>
-                    <span className="text-text-heading">&#8377;0.00</span>
+                    <span className="text-text-heading">{sym}0.00</span>
                   </div>
                   <div className="flex justify-between mb-4 pb-4 border-b border-border-default">
                     <span className="text-text-body">Platform fee</span>
-                    <span className="text-text-heading">&#8377;0.00</span>
+                    <span className="text-text-heading">{sym}0.00</span>
                   </div>
                   <div className="flex justify-between text-[16px] font-bold">
                     <span className="text-text-heading">Total this month</span>
-                    <span className="text-brand">&#8377;0.00</span>
+                    <span className="text-brand">{sym}0.00</span>
                   </div>
                   <div className="text-[11px] text-text-muted mt-3">No payment method on file.</div>
                 </div>
@@ -919,17 +923,20 @@ export default function Home() {
       {/* SECTION 12: PRICING */}
       <section className="py-32 bg-white px-6">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger} className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <motion.div variants={fadeUp} className="bg-brand-pale text-brand text-[13px] font-bold px-4 py-1.5 rounded-full mb-6 inline-block uppercase tracking-widest">Pricing</motion.div>
             <motion.h2 variants={fadeUp} className="text-[36px] md:text-[52px] font-heading font-bold text-text-heading mb-6">Simple, scalable pricing.</motion.h2>
-            <motion.p variants={fadeUp} className="text-[18px] text-text-muted max-w-2xl mx-auto">Start for free and scale as you grow. No hidden fees or surprise overages.</motion.p>
+            <motion.p variants={fadeUp} className="text-[18px] text-text-muted max-w-2xl mx-auto mb-8">Start for free and scale as you grow. No hidden fees or surprise overages.</motion.p>
+            <motion.div variants={fadeUp} className="inline-flex">
+              <CurrencyToggle size="sm" />
+            </motion.div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
             {[
               {
                 name: "Basic",
-                price: "₹0",
+                price: `${sym}0`,
                 suffix: "/forever",
                 desc: "Ship a side project for free. No credit card.",
                 features: [
@@ -947,12 +954,12 @@ export default function Home() {
               },
               {
                 name: "Starter",
-                price: "₹425",
+                price: isINR ? "\u20b9425" : "$5",
                 suffix: "/month",
-                pill: "+₹255 usage credit / mo",
+                pill: isINR ? "+\u20b9255 usage credit / mo" : "+$3 usage credit / mo",
                 desc: "For side projects that need to stay online 24/7.",
                 features: [
-                  "₹255 of compute credit included monthly",
+                  `${isINR ? "\u20b9255" : "$3"} of compute credit included monthly`,
                   "Always-on VMs \u2014 no idle scale-down",
                   "2 custom domains with auto-managed SSL",
                   "DCD-1 or DCD-2 machine sizes",
@@ -966,7 +973,7 @@ export default function Home() {
               },
               {
                 name: "Pro",
-                price: "₹0+",
+                price: `${sym}0+`,
                 suffix: "wallet \u00b7 per-min compute",
                 desc: "Pay-as-you-go for teams and production workloads.",
                 features: [
