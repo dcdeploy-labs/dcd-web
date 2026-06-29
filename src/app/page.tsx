@@ -840,10 +840,18 @@ export default function Home() {
                   </Link>
                 </div>
 
-                <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-text-muted">
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-text-muted mb-6">
                   <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> No credit card required</span>
                   <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> Cancel anytime</span>
                   <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> No vendor lock-in</span>
+                </div>
+
+                {/* Voidrun roadmap callout */}
+                <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                  <span className="text-[11px] font-bold uppercase tracking-widest bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full shrink-0 mt-0.5">In progress</span>
+                  <p className="text-[13px] text-amber-900 leading-[1.5]">
+                    Free services will soon <span className="font-bold">scale to zero when idle</span> using our in-house <Link href="/preview/voidrun" className="font-bold underline underline-offset-2 hover:text-amber-700">voidrun</Link> microVM sandbox. Need always-on today? Move to <Link href="/pricing" className="font-bold underline underline-offset-2 hover:text-amber-700">Starter</Link>.
+                  </p>
                 </div>
               </div>
 
@@ -917,77 +925,97 @@ export default function Home() {
             <motion.p variants={fadeUp} className="text-[18px] text-text-muted max-w-2xl mx-auto">Start for free and scale as you grow. No hidden fees or surprise overages.</motion.p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
             {[
               {
                 name: "Basic",
                 price: "₹0",
                 suffix: "/forever",
-                desc: "Everything you need to ship a side project for free. No credit card required.",
+                desc: "Ship a side project for free. No credit card.",
                 features: [
-                  "1 always-on service",
+                  "1 always-on service today",
                   "DCD-1 machine (250 MB RAM, 1 vCPU)",
-                  "1 organization, 1 environment",
                   "*.dcdeploy.app subdomain with HTTPS",
                   "Deploy from GitHub, GitLab, or Docker",
                   "Real-time logs & metrics",
-                  "Single region (Frankfurt)",
                   "Community support"
                 ],
+                badge: "Free forever",
+                badgeStyle: "bg-slate-100 text-slate-600",
                 cta: "Start Free",
                 highlight: false
               },
               {
+                name: "Starter",
+                price: "₹425",
+                suffix: "/month",
+                pill: "+₹255 usage credit / mo",
+                desc: "For side projects that need to stay online 24/7.",
+                features: [
+                  "₹255 of compute credit included monthly",
+                  "Always-on VMs \u2014 no idle scale-down",
+                  "2 custom domains with auto-managed SSL",
+                  "DCD-1 or DCD-2 machine sizes",
+                  "Email support (next business day)",
+                  "Everything in Basic"
+                ],
+                badge: "Always-on",
+                badgeStyle: "bg-brand-pale text-brand",
+                cta: "Choose Starter",
+                highlight: true
+              },
+              {
                 name: "Pro",
                 price: "₹0+",
-                suffix: "wallet · per-minute compute",
-                desc: "Prepaid wallet. Keep a balance, pay only for the seconds your workloads actually run.",
+                suffix: "wallet \u00b7 per-min compute",
+                desc: "Pay-as-you-go for teams and production workloads.",
                 features: [
                   "Unlimited services",
                   "All machine sizes (DCD-1 to DCD-6)",
-                  "Unlimited organizations & environments",
                   "Unlimited custom domains",
                   "All available regions",
-                  "Unlimited team members",
                   "Autoscaling & scale-to-zero",
-                  "Full observability \u2014 logs, metrics, alerts",
-                  "99.5% SLA",
-                  "Dockerfile builds & optimizations",
-                  "Dedicated support"
+                  "99.5% SLA, dedicated support"
                 ],
+                badge: "For teams",
+                badgeStyle: "bg-purple-100 text-purple-700",
                 cta: "Top Up & Deploy",
-                highlight: true
+                highlight: false
               }
             ].map((plan, i) => (
-              <motion.div 
-                variants={fadeUp} 
-                key={i} 
-                whileHover={{ y: -10 }}
-                className={`p-10 rounded-[32px] border ${plan.highlight ? 'border-brand bg-white shadow-[0_20px_50px_rgba(14,84,135,0.1)] relative' : 'border-border-default bg-[#F8FAFF]'} transition-all`}
+              <motion.div
+                variants={fadeUp}
+                key={i}
+                whileHover={{ y: -8 }}
+                className={`p-8 rounded-[32px] border flex flex-col h-full ${plan.highlight ? 'border-2 border-brand bg-white shadow-[0_20px_50px_rgba(14,84,135,0.15)] relative' : 'border-border-default bg-[#F8FAFF]'} transition-all`}
               >
-                {plan.highlight && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand text-white text-[12px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">Most Popular</div>}
+                {plan.highlight && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand text-white text-[11px] font-bold px-4 py-1 rounded-full uppercase tracking-widest whitespace-nowrap">Most Popular</div>}
+                <div className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full inline-block w-max mb-4 ${plan.badgeStyle}`}>{plan.badge}</div>
                 <h3 className="text-[20px] font-bold text-text-heading mb-2">{plan.name}</h3>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-[48px] font-heading font-extrabold text-text-heading">{plan.price}</span>
-                  <span className="text-text-muted font-semibold">{plan.suffix}</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className={`text-[44px] font-heading font-extrabold leading-none ${plan.highlight ? "text-brand" : "text-text-heading"}`}>{plan.price}</span>
+                  <span className="text-text-muted font-semibold text-[14px]">{plan.suffix}</span>
                 </div>
-                <p className="text-text-muted mb-8 text-[15px]">{plan.desc}</p>
-                <Link 
-                  href="https://dash.dcdeploy.com"
-                  className={`block w-full py-4 text-center rounded-full font-bold transition-all mb-8 ${plan.highlight ? 'bg-[#fcb817] text-[#0F172A] hover:bg-[#e5a515] shadow-lg shadow-[#fcb817]/20' : 'bg-white border border-border-default text-text-heading hover:border-brand hover:text-brand'}`}
-                >
-                  {plan.cta}
-                </Link>
-                <div className="space-y-4">
+                {plan.pill && (
+                  <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-[11px] font-bold px-2 py-1 rounded-full border border-green-200 w-max mt-3 mb-1">{plan.pill}</div>
+                )}
+                <p className="text-text-muted mb-6 mt-4 text-[14px] leading-relaxed">{plan.desc}</p>
+                <div className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-brand/10 text-brand' : 'bg-slate-200 text-slate-500'}`}>
-                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17L4 12"/></svg>
+                    <div key={idx} className="flex items-start gap-3">
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${plan.highlight ? 'bg-brand text-white' : 'bg-slate-200 text-slate-500'}`}>
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17L4 12"/></svg>
                       </div>
-                      <span className="text-[14px] font-medium text-text-body">{feature}</span>
+                      <span className="text-[13px] font-medium text-text-body leading-[1.5]">{feature}</span>
                     </div>
                   ))}
                 </div>
+                <Link
+                  href="https://dash.dcdeploy.com"
+                  className={`block w-full py-3.5 text-center rounded-full font-bold text-[14px] transition-all ${plan.highlight ? 'bg-[#fcb817] text-[#0F172A] hover:bg-[#e5a515] shadow-lg shadow-[#fcb817]/20' : 'bg-white border border-border-default text-text-heading hover:border-brand hover:text-brand'}`}
+                >
+                  {plan.cta}
+                </Link>
               </motion.div>
             ))}
           </div>

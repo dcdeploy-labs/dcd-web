@@ -147,11 +147,13 @@ export default function PricingPage() {
   ];
 
   const faqs = [
-    { q: "Is the Basic tier really free forever?", a: "Yes, our Basic tier is free forever. It allows you to deploy 1 service in a single environment within one organization. Perfect for personal projects or proof-of-concepts." },
+    { q: "Is the Basic tier really free forever?", a: "Yes \u2014 1 service, 1 organization, single environment, on a shared DCD-1 machine, on us. Perfect for personal projects, learning, and proof-of-concepts. No credit card required." },
+    { q: "What's different about the Starter plan?", a: "Starter is a fixed $5 (or \u20b9425) per month and includes $3 (\u20b9255) of compute credit. The big differences vs Basic: your VMs stay always-on (no idle scale-down), you can attach 2 custom domains, and you can run any combination of services that fits inside your monthly credit. Anything beyond your $3 credit is billed per-minute at the same rate as Pro." },
+    { q: "When will voidrun scale-to-zero land on the free tier?", a: "We're building voidrun \u2014 our own microVM sandbox runtime \u2014 so free services can sleep when idle and cold-start within a few hundred milliseconds when traffic returns. It's in active development. Until it ships, Basic services stay always-on. Starter and Pro VMs will always be opt-in for always-on regardless." },
     { q: "What exactly counts as a \"service\"?", a: "A service is any individual application, worker, or static site you deploy on DCDeploy." },
-    { q: "How does usage-based billing work?", a: "We track your resource usage down to the minute. You only pay for what you use, when you use it." },
-    { q: "Can I set a hard spending limit?", a: "Yes, you can configure budget alerts and hard limits in your billing dashboard to prevent unexpected costs." },
-    { q: "Do you offer student or open source discounts?", a: "Absolutely! Contact our support team with proof of your status or project details to apply." },
+    { q: "How does per-minute billing work on Pro?", a: "We meter compute down to the second and aggregate per-minute. You only pay for the seconds your workloads actually run. Bandwidth, storage, and managed databases are billed separately and transparently in the dashboard." },
+    { q: "Can I set a hard spending limit?", a: "Yes \u2014 budget alerts and hard caps are configurable per organization in the billing dashboard. Hit the cap and we pause new minutes (we don't delete anything)." },
+    { q: "Do you offer student or open-source discounts?", a: "Yes. Email us with proof of student status or a link to your OSS repo and we'll credit your wallet." },
   ];
 
   const formatPrice = (amount: number) => {
@@ -219,87 +221,124 @@ export default function PricingPage() {
       {/* PLATFORM FEATURES SECTION */}
       <section className="relative px-6 pb-32 max-w-6xl mx-auto w-full z-10">
         <div className="text-center mb-16">
-           <h2 className="text-3xl font-heading font-bold text-text-heading mb-4">Platform Features</h2>
-           <p className="text-text-body">Choose the right management tier for your team.</p>
+           <h2 className="text-3xl font-heading font-bold text-text-heading mb-4">Platform Plans</h2>
+           <p className="text-text-body">Start free. Add a card when you need always-on or a custom domain.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[900px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1080px] mx-auto items-stretch">
           {/* BASIC PLAN */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
-            className="bg-white border border-border-default rounded-[32px] p-10 flex flex-col h-full hover:shadow-xl transition-all"
+            className="bg-white border border-border-default rounded-[32px] p-8 flex flex-col h-full hover:shadow-xl transition-all"
           >
             <div className="bg-slate-100 text-slate-600 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-6 w-max">Free Forever</div>
             <h3 className="text-2xl font-bold text-text-heading mb-2">Basic</h3>
-            <div className="text-[48px] font-heading font-extrabold text-text-heading mb-1">{formatPrice(0)}</div>
-            <div className="text-text-muted font-bold mb-6">/Month + Compute</div>
-            <p className="text-[15px] text-text-muted mb-8 leading-relaxed">Run a always free service. Essential features for individuals getting started.</p>
-            
-            <ul className="space-y-4 mb-10 flex-1">
+            <div className="text-[44px] font-heading font-extrabold text-text-heading mb-1 leading-none">{formatPrice(0)}</div>
+            <div className="text-text-muted font-bold mb-6">/forever</div>
+            <p className="text-[14px] text-text-muted mb-8 leading-relaxed">Everything you need to ship a side project on us. No credit card required.</p>
+
+            <ul className="space-y-3 mb-8 flex-1">
               {[
-                "1 Service",
-                "DCD-1 machine",
-                "1 Organization",
-                "1 Environment",
-                "No Custom domains",
-                "Single Region",
-                "No additional users",
-                "No autoscaling",
-                "Limited Observability",
-                "No SLA",
-                "Deploy from any source",
-                "Limited Support",
-                "No support for Dockerfile and optimizations."
+                "1 always-on service today",
+                "DCD-1 machine (250 MB RAM, 1 vCPU)",
+                "1 organization, 1 environment",
+                "*.dcdeploy.app subdomain with HTTPS",
+                "Deploy from GitHub, GitLab, or Docker",
+                "Real-time logs & metrics",
+                "Single region (Frankfurt)",
+                "Community support"
               ].map((feature, idx) => (
-                <li key={idx} className="flex items-center gap-3 text-[14px] text-text-body font-semibold">
-                  <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[10px] font-bold">&#10003;</div>
-                  {feature}
+                <li key={idx} className="flex items-start gap-3 text-[14px] text-text-body font-medium">
+                  <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">&#10003;</div>
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
 
-            <Link href="https://dash.dcdeploy.com" className="w-full py-4 px-6 text-center rounded-2xl bg-bg-page border border-border-default text-text-heading font-bold hover:bg-[#fcb817] hover:text-[#0F172A] hover:border-[#fcb817] transition-all">
-              Default Plan
+            <div className="text-[12px] text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mb-6 leading-relaxed">
+              <span className="font-bold">Heads up:</span> free services will scale to zero when idle once <a href="/preview/voidrun" className="underline font-semibold">voidrun sandboxes</a> ship. Today they stay always-on.
+            </div>
+
+            <Link href="https://dash.dcdeploy.com" className="w-full py-3.5 px-6 text-center rounded-2xl bg-bg-page border border-border-default text-text-heading font-bold hover:bg-[#fcb817] hover:text-[#0F172A] hover:border-[#fcb817] transition-all">
+              Start Free
+            </Link>
+          </motion.div>
+
+          {/* STARTER PLAN (NEW) */}
+          <motion.div
+            whileHover={{ y: -5 }}
+            className="bg-white border-2 border-brand rounded-[32px] p-8 flex flex-col h-full shadow-[0_20px_50px_rgba(14,84,135,0.15)] relative"
+          >
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest">Most Popular</div>
+            <div className="bg-brand-pale text-brand text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-6 w-max">Always-on</div>
+            <h3 className="text-2xl font-bold text-text-heading mb-2">Starter</h3>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-[44px] font-heading font-extrabold text-brand leading-none">{formatPrice(currency === "USD" ? 5 : 425)}</span>
+            </div>
+            <div className="text-text-muted font-bold mb-2">/month</div>
+            <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-[12px] font-bold px-2.5 py-1 rounded-full border border-green-200 w-max mb-6">
+              <span>&#43;</span>
+              <span>{formatPrice(currency === "USD" ? 3 : 255)} usage credit / month</span>
+            </div>
+            <p className="text-[14px] text-text-muted mb-8 leading-relaxed">For side projects and small production workloads that need to stay online 24/7. Bring a card &mdash; spend predictably.</p>
+
+            <ul className="space-y-3 mb-8 flex-1">
+              {[
+                `${formatPrice(currency === "USD" ? 3 : 255)} of compute credit included every month`,
+                "Always-on VMs \u2014 no idle scale-down",
+                "2 custom domains with auto-managed SSL",
+                "Run any combination of services within credit",
+                "DCD-1 or DCD-2 machine sizes",
+                "Email support (next business day)",
+                "1 organization, up to 2 environments",
+                "Everything in Basic"
+              ].map((feature, idx) => (
+                <li key={idx} className="flex items-start gap-3 text-[14px] text-text-heading font-medium">
+                  <div className="w-5 h-5 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">&#10003;</div>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Link href="https://dash.dcdeploy.com" className="w-full py-4 text-center bg-[#fcb817] text-[#0F172A] rounded-2xl font-bold hover:bg-[#e5a515] shadow-lg shadow-[#fcb817]/20 transition-all">
+              Choose Starter
             </Link>
           </motion.div>
 
           {/* PRO PLAN */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
-            className="bg-white border-2 border-brand rounded-[32px] p-10 flex flex-col h-full shadow-2xl relative"
+            className="bg-white border border-border-default rounded-[32px] p-8 flex flex-col h-full hover:shadow-xl transition-all"
           >
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest">Recommended</div>
             <div className="bg-brand-pale text-brand text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-6 w-max">For Teams</div>
             <h3 className="text-2xl font-bold text-text-heading mb-2">Pro</h3>
-            <div className="text-[48px] font-heading font-extrabold text-brand mb-1">{formatPrice(0)}</div>
-            <div className="text-text-muted font-bold mb-6">/Month + Compute</div>
-            <p className="text-[15px] text-text-muted mb-8 leading-relaxed">Get started for free. No credit card required. Enjoy this prepaid plan and ensure you maintain enough balance.</p>
-            
-            <ul className="space-y-4 mb-10 flex-1">
+            <div className="text-[44px] font-heading font-extrabold text-text-heading mb-1 leading-none">{formatPrice(0)}<span className="text-[28px] align-top">+</span></div>
+            <div className="text-text-muted font-bold mb-6">wallet &middot; per-min compute</div>
+            <p className="text-[14px] text-text-muted mb-8 leading-relaxed">Pay only for the seconds your workloads run. Top up your prepaid wallet anytime.</p>
+
+            <ul className="space-y-3 mb-8 flex-1">
               {[
                 "Unlimited services",
-                "All Machines",
-                "Unlimited Organizations",
-                "Unlimited Environments",
-                "Unlimited Custom domains",
-                "All Regions",
-                "Unlimited Users",
-                "Autoscaling and scale to 0",
-                "Full Observability. Logs, metrics and Alerts",
-                "99.5 % SLA",
-                "Deploy from any source",
-                "Dedicated support.",
-                "Support for Dockerfile and optimizations"
+                "All machine sizes (DCD-1 to DCD-6)",
+                "Unlimited organizations & environments",
+                "Unlimited custom domains",
+                "All available regions",
+                "Unlimited team members",
+                "Autoscaling & scale-to-zero",
+                "Full observability \u2014 logs, metrics, alerts",
+                "99.5% SLA",
+                "Dockerfile builds & optimizations",
+                "Dedicated support"
               ].map((feature, idx) => (
-                <li key={idx} className="flex items-center gap-3 text-[14px] text-text-heading font-bold">
-                  <div className="w-5 h-5 rounded-full bg-brand text-white flex items-center justify-center text-[10px] font-bold">&#10003;</div>
-                  {feature}
+                <li key={idx} className="flex items-start gap-3 text-[14px] text-text-body font-medium">
+                  <div className="w-5 h-5 rounded-full bg-brand/15 text-brand flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">&#10003;</div>
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
 
-            <Link href="https://dash.dcdeploy.com" className="w-full py-5 text-center bg-[#fcb817] text-[#0F172A] rounded-2xl font-bold hover:bg-[#e5a515] shadow-xl shadow-[#fcb817]/20 transition-all">
-              Join This Plan
+            <Link href="https://dash.dcdeploy.com" className="w-full py-3.5 px-6 text-center rounded-2xl bg-bg-page border border-border-default text-text-heading font-bold hover:bg-[#fcb817] hover:text-[#0F172A] hover:border-[#fcb817] transition-all">
+              Top Up & Deploy
             </Link>
           </motion.div>
         </div>

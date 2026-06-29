@@ -2,6 +2,16 @@ import Link from "next/link";
 
 const sections = [
   {
+    slug: "voidrun",
+    eyebrow: "Voidrun · Roadmap",
+    title: "Voidrun \u2014 scale-to-zero, in-house",
+    desc: "Introduces voidrun, our in-house microVM sandbox runtime. Explains how free-tier services will scale to zero on idle and cold-start in <300ms. Honest 'shipping soon' positioning with a 4-phase roadmap.",
+    home: "Insert directly after the Free Tier Spotlight on the home page",
+    icon: "🪐",
+    accent: "bg-gradient-to-br from-amber-50 to-amber-100",
+    tags: ["Roadmap", "Coming soon", "Free tier"],
+  },
+  {
     slug: "live-stats",
     eyebrow: "Live Pulse",
     title: "Live platform stats",
