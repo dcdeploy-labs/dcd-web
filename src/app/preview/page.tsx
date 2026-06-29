@@ -2,14 +2,14 @@ import Link from "next/link";
 
 const sections = [
   {
-    slug: "voidrun",
-    eyebrow: "Voidrun · Roadmap",
-    title: "Voidrun \u2014 scale-to-zero, in-house",
-    desc: "Introduces voidrun, our in-house microVM sandbox runtime. Explains how free-tier services will scale to zero on idle and cold-start in <300ms. Honest 'shipping soon' positioning with a 4-phase roadmap.",
+    slug: "scale-to-zero",
+    eyebrow: "Scale-to-zero",
+    title: "Sleep when idle. Wake instantly.",
+    desc: "Explains how every service runs in its own microVM, suspends on idle, and cold-starts in under 300ms. Lifecycle log, four how-it-works steps, four why-microVMs benefits, and an 'always-on opt-out' card.",
     home: "Insert directly after the Free Tier Spotlight on the home page",
-    icon: "🪐",
-    accent: "bg-gradient-to-br from-amber-50 to-amber-100",
-    tags: ["Roadmap", "Coming soon", "Free tier"],
+    icon: "💤",
+    accent: "bg-gradient-to-br from-indigo-50 to-indigo-100",
+    tags: ["microVMs", "Free tier", "How it works"],
   },
   {
     slug: "live-stats",

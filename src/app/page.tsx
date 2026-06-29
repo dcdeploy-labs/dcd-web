@@ -850,11 +850,11 @@ export default function Home() {
                   <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> No vendor lock-in</span>
                 </div>
 
-                {/* Voidrun roadmap callout */}
-                <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-                  <span className="text-[11px] font-bold uppercase tracking-widest bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full shrink-0 mt-0.5">In progress</span>
-                  <p className="text-[13px] text-amber-900 leading-[1.5]">
-                    Free services will soon <span className="font-bold">scale to zero when idle</span> using our in-house <Link href="/preview/voidrun" className="font-bold underline underline-offset-2 hover:text-amber-700">voidrun</Link> microVM sandbox. Need always-on today? Move to <Link href="/pricing" className="font-bold underline underline-offset-2 hover:text-amber-700">Starter</Link>.
+                {/* Scale-to-zero callout */}
+                <div className="flex items-start gap-3 bg-bg-blue-tint border border-border-blue rounded-xl px-4 py-3">
+                  <span className="text-[11px] font-bold uppercase tracking-widest bg-brand text-white px-2 py-0.5 rounded-full shrink-0 mt-0.5">microVMs</span>
+                  <p className="text-[13px] text-text-body leading-[1.5]">
+                    Free services <span className="font-bold text-text-heading">sleep when idle</span> and cold-start in under 300ms via microVM snapshots &mdash; that's how we keep the free tier free. Need always-on? Move to <Link href="/pricing" className="font-bold text-brand underline underline-offset-2 hover:text-brand-hover">Starter</Link>.
                   </p>
                 </div>
               </div>

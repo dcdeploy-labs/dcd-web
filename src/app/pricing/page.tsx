@@ -148,10 +148,11 @@ export default function PricingPage() {
   ];
 
   const faqs = [
-    { q: "Is the Basic tier really free forever?", a: "Yes \u2014 1 service, 1 organization, single environment, on a shared DCD-1 machine, on us. Perfect for personal projects, learning, and proof-of-concepts. No credit card required." },
-    { q: "What's different about the Starter plan?", a: "Starter is a fixed $5 (or \u20b9425) per month and includes $3 (\u20b9255) of compute credit. The big differences vs Basic: your VMs stay always-on (no idle scale-down), you can attach 2 custom domains, and you can run any combination of services that fits inside your monthly credit. Anything beyond your $3 credit is billed per-minute at the same rate as Pro." },
-    { q: "When will voidrun scale-to-zero land on the free tier?", a: "We're building voidrun \u2014 our own microVM sandbox runtime \u2014 so free services can sleep when idle and cold-start within a few hundred milliseconds when traffic returns. It's in active development. Until it ships, Basic services stay always-on. Starter and Pro VMs will always be opt-in for always-on regardless." },
-    { q: "What exactly counts as a \"service\"?", a: "A service is any individual application, worker, or static site you deploy on DCDeploy." },
+    { q: "Is the Basic tier really free forever?", a: "Yes \u2014 1 service, 1 organization, single environment, on a shared DCD-1 microVM. Perfect for personal projects, learning, and proof-of-concepts. No credit card required." },
+    { q: "How does scale-to-zero work on the free tier?", a: "Free Basic services run on microVMs. After a configurable idle window with no traffic, we snapshot the memory state and suspend compute. The next incoming request restores from the snapshot and typically responds in under 300ms. That's how we can sustain a forever-free tier without burning platform capacity on idle workloads." },
+    { q: "What's different about the Starter plan?", a: "Starter is a fixed $5 (or \u20b9425) per month and includes $3 (\u20b9255) of compute credit. The big differences vs Basic: your microVMs stay always-on (no idle suspend), you can attach 2 custom domains, and you can run any combination of services that fits inside your monthly credit. Anything beyond the $3 credit is billed per-minute at the same rate as Pro." },
+    { q: "Can I opt out of idle suspend?", a: "On Basic, idle suspend is part of the deal. On Starter and Pro, always-on is the default and you can configure idle suspend per service if you want it. Long-lived workloads like WebSocket servers and high-throughput APIs typically stay always-on." },
+    { q: "What exactly counts as a \"service\"?", a: "A service is any individual application, worker, or static site you deploy on DCDeploy. Each one runs in its own microVM." },
     { q: "How does per-minute billing work on Pro?", a: "We meter compute down to the second and aggregate per-minute. You only pay for the seconds your workloads actually run. Bandwidth, storage, and managed databases are billed separately and transparently in the dashboard." },
     { q: "Can I set a hard spending limit?", a: "Yes \u2014 budget alerts and hard caps are configurable per organization in the billing dashboard. Hit the cap and we pause new minutes (we don't delete anything)." },
     { q: "Do you offer student or open-source discounts?", a: "Yes. Email us with proof of student status or a link to your OSS repo and we'll credit your wallet." },
@@ -240,8 +241,8 @@ export default function PricingPage() {
 
             <ul className="space-y-3 mb-8 flex-1">
               {[
-                "1 always-on service today",
-                "DCD-1 machine (250 MB RAM, 1 vCPU)",
+                "1 service (sleeps on idle, wakes in <300ms)",
+                "DCD-1 microVM (250 MB RAM, 1 vCPU)",
                 "1 organization, 1 environment",
                 "*.dcdeploy.app subdomain with HTTPS",
                 "Deploy from GitHub, GitLab, or Docker",
@@ -256,8 +257,8 @@ export default function PricingPage() {
               ))}
             </ul>
 
-            <div className="text-[12px] text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 mb-6 leading-relaxed">
-              <span className="font-bold">Heads up:</span> free services will scale to zero when idle once <a href="/preview/voidrun" className="underline font-semibold">voidrun sandboxes</a> ship. Today they stay always-on.
+            <div className="text-[12px] text-brand bg-bg-blue-tint border border-border-blue rounded-xl px-3 py-2 mb-6 leading-relaxed">
+              <span className="font-bold">How free stays free:</span> Basic services run on microVMs that <a href="/preview/scale-to-zero" className="underline font-semibold hover:text-brand-hover">suspend when idle</a> and cold-start in under 300ms. Need always-on? Pick Starter.
             </div>
 
             <Link href="https://dash.dcdeploy.com" className="w-full py-3.5 px-6 text-center rounded-2xl bg-bg-page border border-border-default text-text-heading font-bold hover:bg-[#fcb817] hover:text-[#0F172A] hover:border-[#fcb817] transition-all">
