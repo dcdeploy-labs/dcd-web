@@ -775,7 +775,140 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NEW SECTION 12: PRICING */}
+      {/* SECTION 11.5: FREE TIER SPOTLIGHT */}
+      <section className="relative bg-white py-32 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-bg-blue-tint/40 to-white pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-brand-pale rounded-full blur-[120px] opacity-50 -z-0 pointer-events-none"></div>
+
+        <motion.div
+          initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={stagger}
+          className="max-w-6xl mx-auto relative z-10"
+        >
+          <motion.div variants={fadeUp} className="text-center mb-16">
+            <div className="bg-bg-blue-tint text-brand text-[13px] font-bold px-4 py-1.5 rounded-full inline-block mb-6 uppercase tracking-widest border border-border-blue">
+              Free Forever
+            </div>
+            <h2 className="text-[36px] md:text-[52px] font-heading font-bold text-text-heading mb-6 leading-tight">
+              Start free. <span className="gradient-text">Ship forever.</span>
+            </h2>
+            <p className="text-[18px] text-text-body max-w-2xl mx-auto leading-[1.7]">
+              No credit card. No 14-day trial countdown. Spin up a service and keep it running &mdash; on real bare metal, on us.
+            </p>
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="relative rounded-[32px] bg-white border border-border-default shadow-[0_20px_60px_rgba(14,84,135,0.08)] overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+
+              {/* LEFT: What's included */}
+              <div className="p-10 md:p-14">
+                <div className="flex items-baseline gap-3 mb-2">
+                  <span className="text-[64px] font-heading font-extrabold text-text-heading leading-none">&#8377;0</span>
+                  <span className="text-text-muted font-semibold text-[16px]">/forever</span>
+                </div>
+                <p className="text-[13px] text-text-muted font-semibold uppercase tracking-wider mb-8">Basic plan &mdash; no card on file</p>
+
+                <h3 className="text-[20px] font-bold text-text-heading mb-2">Everything below is yours from day one</h3>
+                <p className="text-[14px] text-text-muted mb-8">No asterisks. No surprise overages. Upgrade only when you outgrow it.</p>
+
+                <div className="space-y-4 mb-10">
+                  {[
+                    { title: "1 always-on service", desc: "Web service, worker, or cron \u2014 your choice." },
+                    { title: "DCD-1 machine", desc: "250 MB RAM \u00b7 5 GB NVMe \u00b7 1 vCPU on shared bare metal." },
+                    { title: "Deploy from anywhere", desc: "GitHub, GitLab, Bitbucket, or any Docker registry." },
+                    { title: "Automatic HTTPS", desc: "Free SSL on a *.dcdeploy.app subdomain." },
+                    { title: "Real-time logs & metrics", desc: "Stream stdout and watch RAM / CPU as it runs." },
+                    { title: "Per-minute billing on overage", desc: "Scale up only when you need to. Pay only for what you use." }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-4 items-start">
+                      <div className="w-6 h-6 rounded-full bg-brand/10 text-brand flex items-center justify-center shrink-0 mt-0.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17L4 12"/></svg>
+                      </div>
+                      <div>
+                        <div className="text-[15px] font-semibold text-text-heading">{item.title}</div>
+                        <div className="text-[14px] text-text-muted leading-[1.5]">{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                  <Link href="https://dash.dcdeploy.com" className="px-7 py-3.5 bg-[#fcb817] text-[#0F172A] font-semibold rounded-full shadow-[0_4px_14px_rgba(252,184,23,0.35)] hover:bg-[#e5a515] hover:-translate-y-0.5 transition-all text-center">
+                    Get Started Free &rarr;
+                  </Link>
+                  <Link href="/pricing" className="px-7 py-3.5 bg-white border border-border-default text-text-body font-semibold rounded-full hover:border-brand hover:text-brand transition-all text-center">
+                    See Full Pricing
+                  </Link>
+                </div>
+
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-text-muted">
+                  <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> No credit card required</span>
+                  <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> Cancel anytime</span>
+                  <span className="flex items-center gap-1.5"><span className="text-green-500 font-bold">&#10003;</span> No vendor lock-in</span>
+                </div>
+              </div>
+
+              {/* RIGHT: Mock invoice + when to upgrade */}
+              <div className="p-10 md:p-14 bg-gradient-to-br from-[#F8FAFF] to-bg-blue-tint border-t lg:border-t-0 lg:border-l border-border-default flex flex-col gap-8 justify-between">
+
+                {/* Mock receipt visual */}
+                <div className="bg-white rounded-2xl border border-border-default shadow-sm p-6 font-mono text-[13px]">
+                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-border-default">
+                    <span className="text-text-muted text-[11px] uppercase tracking-wider font-semibold">Your monthly invoice</span>
+                    <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">PREVIEW</span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-text-body">DCD-1 &middot; 1 service</span>
+                    <span className="text-text-heading">&#8377;0.00</span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-text-body">Bandwidth (10 GB)</span>
+                    <span className="text-text-heading">&#8377;0.00</span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-text-body">SSL &amp; subdomain</span>
+                    <span className="text-text-heading">&#8377;0.00</span>
+                  </div>
+                  <div className="flex justify-between mb-4 pb-4 border-b border-border-default">
+                    <span className="text-text-body">Platform fee</span>
+                    <span className="text-text-heading">&#8377;0.00</span>
+                  </div>
+                  <div className="flex justify-between text-[16px] font-bold">
+                    <span className="text-text-heading">Total this month</span>
+                    <span className="text-brand">&#8377;0.00</span>
+                  </div>
+                  <div className="text-[11px] text-text-muted mt-3">No payment method on file.</div>
+                </div>
+
+                {/* When to upgrade */}
+                <div>
+                  <h4 className="text-[16px] font-bold text-text-heading mb-2">Upgrade to Pro when you need:</h4>
+                  <p className="text-[13px] text-text-muted mb-5">Same per-minute billing model. You choose the machine size, we meter the seconds.</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      "Custom domains",
+                      "Multiple services",
+                      "Team members",
+                      "Autoscaling & scale-to-zero",
+                      "Production SLA",
+                      "Priority support"
+                    ].map((feature, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[13px] text-text-body bg-white rounded-lg border border-border-default px-3 py-2.5 hover:border-brand transition-colors">
+                        <span className="text-brand font-bold">&rarr;</span>
+                        <span className="font-medium">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/pricing" className="text-[14px] font-bold text-brand inline-flex items-center gap-1 mt-6 hover:gap-2 transition-all">
+                    Compare plans <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* SECTION 12: PRICING */}
       <section className="py-32 bg-white px-6">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger} className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -786,51 +919,44 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
-              { 
-                name: "Basic", 
-                price: "₹0", 
-                suffix: "/Month + Compute",
-                desc: "Run a always free service.", 
+              {
+                name: "Basic",
+                price: "₹0",
+                suffix: "/forever",
+                desc: "Everything you need to ship a side project for free. No credit card required.",
                 features: [
-                  "1 Service",
-                  "DCD-1 machine",
-                  "1 Organization",
-                  "1 Environment",
-                  "No Custom domains",
-                  "Single Region",
-                  "No additional users",
-                  "No autoscaling",
-                  "Limited Observability",
-                  "No SLA",
-                  "Deploy from any source",
-                  "Limited Support",
-                  "No support for Dockerfile and optimizations."
-                ], 
-                cta: "Default Plan", 
-                highlight: false 
+                  "1 always-on service",
+                  "DCD-1 machine (250 MB RAM, 1 vCPU)",
+                  "1 organization, 1 environment",
+                  "*.dcdeploy.app subdomain with HTTPS",
+                  "Deploy from GitHub, GitLab, or Docker",
+                  "Real-time logs & metrics",
+                  "Single region (Frankfurt)",
+                  "Community support"
+                ],
+                cta: "Start Free",
+                highlight: false
               },
-              { 
-                name: "Pro", 
-                price: "₹0", 
-                suffix: "/Month + Compute",
-                desc: "Get started for free. No credit card required. Enjoy this prepaid plan and ensure you maintain enough balance to keep your deployed workloads running.", 
+              {
+                name: "Pro",
+                price: "₹0+",
+                suffix: "wallet · per-minute compute",
+                desc: "Prepaid wallet. Keep a balance, pay only for the seconds your workloads actually run.",
                 features: [
                   "Unlimited services",
-                  "All Machines",
-                  "Unlimited Organizations",
-                  "Unlimited Environments",
-                  "Unlimited Custom domains",
-                  "All Regions",
-                  "Unlimited Users",
-                  "Autoscaling and scale to 0",
-                  "Full Observability. Logs, metrics and Alerts",
-                  "99.5 % SLA",
-                  "Deploy from any source",
-                  "Dedicated support.",
-                  "Support for Dockerfile and optimizations"
-                ], 
-                cta: "Join This Plan", 
-                highlight: true 
+                  "All machine sizes (DCD-1 to DCD-6)",
+                  "Unlimited organizations & environments",
+                  "Unlimited custom domains",
+                  "All available regions",
+                  "Unlimited team members",
+                  "Autoscaling & scale-to-zero",
+                  "Full observability \u2014 logs, metrics, alerts",
+                  "99.5% SLA",
+                  "Dockerfile builds & optimizations",
+                  "Dedicated support"
+                ],
+                cta: "Top Up & Deploy",
+                highlight: true
               }
             ].map((plan, i) => (
               <motion.div 
