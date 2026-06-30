@@ -245,21 +245,39 @@ export default function PreviewIndexPage() {
             {sections.length} candidates · all routes static · not linked from the public nav.
           </p>
 
-          {/* /v2 candidate callout */}
-          <Link
-            href="/v2"
-            className="mt-8 inline-flex items-center justify-between gap-6 bg-gradient-to-br from-[#073a61] to-[#0e5487] text-white border border-brand-light/30 rounded-2xl px-6 py-4 hover:-translate-y-0.5 transition-all shadow-[0_8px_24px_rgba(14,84,135,0.18)]"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-white/15 border border-white/20 backdrop-blur-md flex items-center justify-center text-[20px]">🪶</div>
-              <div className="text-left">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-brand-light mb-0.5">Full-page candidate</div>
-                <div className="text-[15px] font-bold">Minimalist home page at <span className="font-mono underline underline-offset-2">/v2</span></div>
-                <div className="text-[12px] text-blue-100/80 mt-0.5">6 sections instead of 13. Compare side-by-side with the current home at <span className="font-mono">/</span>.</div>
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* /v2 candidate callout */}
+            <Link
+              href="/v2"
+              className="inline-flex items-center justify-between gap-6 bg-gradient-to-br from-[#073a61] to-[#0e5487] text-white border border-brand-light/30 rounded-2xl px-6 py-4 hover:-translate-y-0.5 transition-all shadow-[0_8px_24px_rgba(14,84,135,0.18)]"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/15 border border-white/20 backdrop-blur-md flex items-center justify-center text-[20px]">🪶</div>
+                <div className="text-left">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-brand-light mb-0.5">Full-page candidate</div>
+                  <div className="text-[15px] font-bold">Modern home page at <span className="font-mono underline underline-offset-2">/v2</span></div>
+                  <div className="text-[12px] text-blue-100/80 mt-0.5">12 sections, polished SaaS rhythm, richer product story.</div>
+                </div>
               </div>
-            </div>
-            <span className="text-[14px] font-bold text-brand-light shrink-0 hidden sm:inline">Open &rarr;</span>
-          </Link>
+              <span className="text-[14px] font-bold text-brand-light shrink-0 hidden sm:inline">Open &rarr;</span>
+            </Link>
+
+            {/* /v3 candidate callout */}
+            <Link
+              href="/v3"
+              className="inline-flex items-center justify-between gap-6 bg-white text-text-heading border border-border-default rounded-2xl px-6 py-4 hover:-translate-y-0.5 hover:border-brand transition-all shadow-[0_8px_24px_rgba(14,84,135,0.08)]"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-bg-blue-tint border border-border-blue flex items-center justify-center text-[20px]">⚡</div>
+                <div className="text-left">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-brand mb-0.5">Full-page candidate</div>
+                  <div className="text-[15px] font-bold">Linear conversion page at <span className="font-mono underline underline-offset-2">/v3</span></div>
+                  <div className="text-[12px] text-text-muted mt-0.5">VoidRun-inspired structure, DCDeploy colors and sections.</div>
+                </div>
+              </div>
+              <span className="text-[14px] font-bold text-brand shrink-0 hidden sm:inline">Open &rarr;</span>
+            </Link>
+          </div>
         </div>
       </section>
 
