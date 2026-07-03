@@ -1,0 +1,343 @@
+import Link from "next/link";
+
+const sections = [
+  {
+    slug: "environments",
+    eyebrow: "Environments",
+    title: "Clone production. Break things safely.",
+    desc: "Environments-as-a-service pitch. Parent prod env + multiple ephemeral clones (PR previews, load tests, migration rehearsals, demos, A/B infra tests). Per-minute billing, two-command workflow, auto-destroy when idle.",
+    home: "Between How it works and Global Edge Network",
+    icon: "🌱",
+    accent: "bg-gradient-to-br from-teal-50 to-emerald-100",
+    tags: ["Product", "Flagship", "DX"],
+  },
+  {
+    slug: "cli",
+    eyebrow: "CLI",
+    title: "Six commands to ship",
+    desc: "Tabbed CLI tour \u2014 install, login, deploy, logs, scale, rollback. Each tab pairs a description with a real terminal showing the command + output.",
+    home: "Best as a /cli reference page; condensed 2-3 tabs on home",
+    icon: "💻",
+    accent: "bg-gradient-to-br from-stone-50 to-stone-200",
+    tags: ["DX", "CLI", "Tabbed"],
+  },
+  {
+    slug: "dashboard",
+    eyebrow: "Dashboard",
+    title: "Annotated product tour",
+    desc: "Three stylised dashboard screens (services list · live logs · metrics + cost meter) with numbered pin callouts. Replace mockups with real product captures before promoting.",
+    home: "Between How it works and Global Edge Network",
+    icon: "🖥️",
+    accent: "bg-gradient-to-br from-cyan-50 to-cyan-100",
+    tags: ["Product", "DX", "Mockup"],
+  },
+  {
+    slug: "api",
+    eyebrow: "API",
+    title: "curl / Node / Python toggle",
+    desc: "Three representative REST endpoints (create deploy, tail logs, scale) shown side-by-side with response. Lang toggle. Dark theme, code-heavy.",
+    home: "Between Bento grid and Feature tabs",
+    icon: "🛠️",
+    accent: "bg-gradient-to-br from-slate-800 to-slate-600 text-white",
+    tags: ["API", "DX", "Reference"],
+  },
+  {
+    slug: "bare-metal",
+    eyebrow: "Architecture",
+    title: "Bare metal vs serverless",
+    desc: "Head-to-head explainer across 7 dimensions (cold start, latency, memory, execution time, file system, cost, isolation). Honest 'when NOT to pick bare metal' closer.",
+    home: "Dedicated /architecture page; 3-4 rows on home",
+    icon: "⚖️",
+    accent: "bg-gradient-to-br from-sky-50 to-sky-100",
+    tags: ["Differentiation", "Educational"],
+  },
+  {
+    slug: "eu-residency",
+    eyebrow: "EU Residency",
+    title: "Built for European data",
+    desc: "GDPR / data-sovereignty positioning. Frankfurt-only commitment, four pillars, factsheet. Targeted at regulated industries and EU buyers.",
+    home: "Dedicated /eu page; small badge in nav/footer linking here",
+    icon: "🇪🇺",
+    accent: "bg-gradient-to-br from-blue-50 to-yellow-50",
+    tags: ["Trust", "Compliance", "EU"],
+  },
+  {
+    slug: "showcase",
+    eyebrow: "Showcase",
+    title: "Built with DCDeploy",
+    desc: "Customer story gallery. ALL placeholder copy \u2014 not safe to promote until replaced with real opt-in customer quotes. Page itself has a visible 'placeholder' banner.",
+    home: "Replaces the fake '14,000+ companies' logos strip in section 2",
+    icon: "🏆",
+    accent: "bg-gradient-to-br from-yellow-50 to-orange-100",
+    tags: ["Social proof", "Placeholder"],
+  },
+  {
+    slug: "founder",
+    eyebrow: "Founder note",
+    title: "Why we built DCDeploy",
+    desc: "Short personal letter from the founders. Placeholder voice + names \u2014 rewrite with the founder's actual voice before promoting. Humanises the brand.",
+    home: "Near the bottom, between No-BS and Final CTA \u2014 or on /about",
+    icon: "✍️",
+    accent: "bg-gradient-to-br from-rose-50 to-pink-100",
+    tags: ["Narrative", "Trust", "Placeholder"],
+  },
+  {
+    slug: "open-metrics",
+    eyebrow: "Open metrics",
+    title: "Charts, not slogans",
+    desc: "Four time-series + distribution charts: deploys per day, p99 build trend, bandwidth served, cold-start latency histogram. Different job from /preview/live-stats \u2014 trends, not totals.",
+    home: "Either replaces /preview/live-stats or complements it",
+    icon: "📊",
+    accent: "bg-gradient-to-br from-violet-100 to-fuchsia-100",
+    tags: ["Trust", "Charts", "Operational"],
+  },
+  {
+    slug: "savings",
+    eyebrow: "Savings",
+    title: "What would this cost on Heroku?",
+    desc: "ROI calculator. Pick competitor (Heroku / Railway / Render), set usage shape (services, DBs, uptime%, bandwidth), see monthly + yearly savings. Pulls from real published competitor pricing.",
+    home: "Between Comparison table and Free Tier Spotlight",
+    icon: "💸",
+    accent: "bg-gradient-to-br from-green-50 to-emerald-100",
+    tags: ["Conversion", "Interactive", "Comparison"],
+  },
+  {
+    slug: "deploy-demo",
+    eyebrow: "Deploy Demo",
+    title: "git push, animated",
+    desc: "Animated terminal that streams a real deploy session line-by-line, paired with a 5-step pipeline visualizer that lights up alongside. Loops between Next.js, Python and Docker scenarios.",
+    home: "Insert directly after the Hero on the home page",
+    icon: "⌨️",
+    accent: "bg-gradient-to-br from-slate-900 to-slate-700 text-white",
+    tags: ["Animated", "DX", "Activation"],
+  },
+  {
+    slug: "frameworks",
+    eyebrow: "Frameworks",
+    title: "Auto-detected stacks grid",
+    desc: "27+ frameworks grouped by category (Web, API, Compiled, Runtime, Static) with detection rules visible per tile. Catch-all Dockerfile callout at the bottom.",
+    home: "Insert between Pipeline Visualizer and How it works",
+    icon: "🧩",
+    accent: "bg-gradient-to-br from-emerald-50 to-emerald-100",
+    tags: ["Trust", "Breadth", "Developer"],
+  },
+  {
+    slug: "no-bs",
+    eyebrow: "No BS",
+    title: "Things we promise not to do",
+    desc: "Eight anti-marketing promises with the 'why' (what competitors do wrong) and the 'what' (what we do instead). Different tone from the comparison table — values-driven, not analytical.",
+    home: "Insert near bottom of home, between Pricing and Final CTA",
+    icon: "🚫",
+    accent: "bg-gradient-to-br from-red-50 to-red-100",
+    tags: ["Differentiation", "Trust", "Opinionated"],
+  },
+  {
+    slug: "templates",
+    eyebrow: "Templates",
+    title: "One-click deploy gallery",
+    desc: "Nine production-shaped starter templates (Next.js SaaS, Discord bot, cron, FastAPI, Django, static, webhook router, Telegram bot, Go API). Each shows machine size + p50 deploy time.",
+    home: "Insert between Hero and Free Tier Spotlight",
+    icon: "📦",
+    accent: "bg-gradient-to-br from-violet-50 to-violet-100",
+    tags: ["Activation", "Conversion", "Templates"],
+  },
+  {
+    slug: "status",
+    eyebrow: "Status",
+    title: "Live uptime widget",
+    desc: "Compact system health summary: last-30-days bar grid, per-service operational status, recent incidents list. Trust-builder. Stub for a future full /status page.",
+    home: "Insert between Security section and Pricing",
+    icon: "🟢",
+    accent: "bg-gradient-to-br from-teal-50 to-teal-100",
+    tags: ["Trust", "Operational"],
+  },
+  {
+    slug: "scale-to-zero",
+    eyebrow: "Scale-to-zero",
+    title: "Sleep when idle. Wake instantly.",
+    desc: "Explains how every service runs in its own microVM, suspends on idle, and cold-starts in under 300ms. Lifecycle log, four how-it-works steps, four why-microVMs benefits, and an 'always-on opt-out' card.",
+    home: "Insert directly after the Free Tier Spotlight on the home page",
+    icon: "💤",
+    accent: "bg-gradient-to-br from-indigo-50 to-indigo-100",
+    tags: ["microVMs", "Free tier", "How it works"],
+  },
+  {
+    slug: "live-stats",
+    eyebrow: "Live Pulse",
+    title: "Platform stats",
+    desc: "Four animated count-up counters showing requests served, deployments, services running, and uptime. Hydrate from the stats API at build/revalidate time.",
+    home: "Add as section between Bento grid and Feature tabs",
+    icon: "📈",
+    accent: "bg-gradient-to-br from-blue-50 to-blue-100",
+    tags: ["Trust", "Stats", "Animated"],
+  },
+  {
+    slug: "comparison",
+    eyebrow: "Comparison",
+    title: "Why DCDeploy vs the rest",
+    desc: "Side-by-side feature table comparing DCDeploy with Heroku, Railway, Render and Fly.io on the dimensions that matter (free tier, per-min billing, bare metal, scale-to-zero, EU residency).",
+    home: "Add as section right before Pricing",
+    icon: "⚖️",
+    accent: "bg-gradient-to-br from-amber-50 to-amber-100",
+    tags: ["Conversion", "Comparison"],
+  },
+  {
+    slug: "infra",
+    eyebrow: "Infrastructure",
+    title: "Honest bare-metal story",
+    desc: "Replacement for the fictional 35-region globe. Tells the real story: Frankfurt today, AMD EPYC + Intel Gold + NVMe, microVMs + WireGuard mesh, more locations coming.",
+    home: "Replace Global Edge Network section on home",
+    icon: "🏗️",
+    accent: "bg-gradient-to-br from-slate-100 to-slate-200",
+    tags: ["Trust", "Honest"],
+  },
+  {
+    slug: "migration",
+    eyebrow: "Migration",
+    title: "From X to DCDeploy",
+    desc: "Three side-by-side cards for migrating from Heroku, Railway and Render with a CLI snippet and rough timing for each. Drives high-intent traffic.",
+    home: "Add as section after Bento grid",
+    icon: "🚚",
+    accent: "bg-gradient-to-br from-green-50 to-green-100",
+    tags: ["Conversion", "SEO"],
+  },
+  {
+    slug: "use-cases",
+    eyebrow: "Use Cases",
+    title: "Built for…",
+    desc: "Grid of 4 personas with a concrete example app each: indie hackers (Next.js SaaS), startups (Django API), agencies (multi-tenant), side projects (Discord bot).",
+    home: "Add as section between Hero and Pipeline visualizer",
+    icon: "🎯",
+    accent: "bg-gradient-to-br from-purple-50 to-purple-100",
+    tags: ["Self-identify"],
+  },
+  {
+    slug: "calculator",
+    eyebrow: "Calculator",
+    title: "Inline cost calculator",
+    desc: "Lite version of the /pricing page calculator. Three sliders (RAM, requests, services) → 'You'd pay ~₹X/month'. Removes price uncertainty at first impression.",
+    home: "Add as section after Free Tier Spotlight",
+    icon: "🧮",
+    accent: "bg-gradient-to-br from-rose-50 to-rose-100",
+    tags: ["Conversion", "Interactive"],
+  },
+];
+
+export default function PreviewIndexPage() {
+  return (
+    <div className="flex flex-col w-full bg-bg-page min-h-screen">
+      {/* HERO */}
+      <section className="relative pt-32 pb-16 px-6 overflow-hidden border-b border-border-default bg-white">
+        <div className="absolute inset-0 circuit-pattern pointer-events-none opacity-60"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="bg-amber-100 border border-amber-300 text-amber-800 text-[12px] font-bold px-3 py-1 rounded-full inline-flex items-center gap-2 mb-6 uppercase tracking-widest">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+            Internal review
+          </div>
+          <h1 className="text-[40px] md:text-[56px] font-heading font-extrabold text-text-heading leading-[1.05] tracking-[-0.02em] mb-6">
+            Candidate sections <br/>
+            <span className="gradient-text">for the new home page.</span>
+          </h1>
+          <p className="text-[18px] text-text-body max-w-2xl leading-[1.7] mb-2">
+            Each card below is a self-contained section preview. Open one, give it a look, and tell us which to promote into the main home page (or kill).
+          </p>
+          <p className="text-[14px] text-text-muted">
+            {sections.length} candidates · all routes static · not linked from the public nav.
+          </p>
+
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* /v2 candidate callout */}
+            <Link
+              href="/v2"
+              className="inline-flex items-center justify-between gap-6 bg-gradient-to-br from-[#073a61] to-[#0e5487] text-white border border-brand-light/30 rounded-2xl px-6 py-4 hover:-translate-y-0.5 transition-all shadow-[0_8px_24px_rgba(14,84,135,0.18)]"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/15 border border-white/20 backdrop-blur-md flex items-center justify-center text-[20px]">🪶</div>
+                <div className="text-left">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-brand-light mb-0.5">Full-page candidate</div>
+                  <div className="text-[15px] font-bold">Modern home page at <span className="font-mono underline underline-offset-2">/v2</span></div>
+                  <div className="text-[12px] text-blue-100/80 mt-0.5">12 sections, polished SaaS rhythm, richer product story.</div>
+                </div>
+              </div>
+              <span className="text-[14px] font-bold text-brand-light shrink-0 hidden sm:inline">Open &rarr;</span>
+            </Link>
+
+            {/* /v3 candidate callout */}
+            <Link
+              href="/v3"
+              className="inline-flex items-center justify-between gap-6 bg-white text-text-heading border border-border-default rounded-2xl px-6 py-4 hover:-translate-y-0.5 hover:border-brand transition-all shadow-[0_8px_24px_rgba(14,84,135,0.08)]"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-bg-blue-tint border border-border-blue flex items-center justify-center text-[20px]">⚡</div>
+                <div className="text-left">
+                  <div className="text-[10px] font-bold uppercase tracking-widest text-brand mb-0.5">Full-page candidate</div>
+                  <div className="text-[15px] font-bold">Linear conversion page at <span className="font-mono underline underline-offset-2">/v3</span></div>
+                  <div className="text-[12px] text-text-muted mt-0.5">VoidRun-inspired structure, DCDeploy colors and sections.</div>
+                </div>
+              </div>
+              <span className="text-[14px] font-bold text-brand shrink-0 hidden sm:inline">Open &rarr;</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* GRID */}
+      <section className="px-6 py-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sections.map((s) => (
+            <Link
+              key={s.slug}
+              href={`/preview/${s.slug}`}
+              className="group relative bg-white border border-border-default rounded-3xl overflow-hidden shadow-[0_4px_14px_rgba(14,84,135,0.04)] hover:shadow-[0_20px_40px_rgba(14,84,135,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+              <div className={`h-32 ${s.accent} flex items-center justify-center text-[56px]`}>
+                <span aria-hidden="true">{s.icon}</span>
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-[11px] font-bold text-brand uppercase tracking-widest">{s.eyebrow}</span>
+                </div>
+                <h2 className="text-[20px] font-bold text-text-heading mb-2 leading-tight group-hover:text-brand transition-colors">{s.title}</h2>
+                <p className="text-[14px] text-text-muted leading-[1.6] mb-5 flex-1">{s.desc}</p>
+                <div className="text-[12px] text-text-body mb-4 bg-bg-blue-tint/50 border border-border-blue rounded-lg px-3 py-2">
+                  <span className="font-semibold text-brand">If promoted: </span>
+                  {s.home}
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-1.5 flex-wrap">
+                    {s.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] font-semibold text-text-muted bg-slate-100 px-2 py-0.5 rounded-full uppercase tracking-wider">{tag}</span>
+                    ))}
+                  </div>
+                  <div className="text-brand text-[13px] font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Open
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Help row */}
+        <div className="max-w-6xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white border border-border-default rounded-2xl p-6">
+            <div className="text-[18px] mb-2">✅</div>
+            <h3 className="text-[15px] font-bold text-text-heading mb-1">Promote</h3>
+            <p className="text-[13px] text-text-muted">Comment "promote: live-stats" on the PR and we'll move it onto the home page.</p>
+          </div>
+          <div className="bg-white border border-border-default rounded-2xl p-6">
+            <div className="text-[18px] mb-2">✏️</div>
+            <h3 className="text-[15px] font-bold text-text-heading mb-1">Revise</h3>
+            <p className="text-[13px] text-text-muted">Tell us what to change (copy, layout, numbers) and we'll iterate before promoting.</p>
+          </div>
+          <div className="bg-white border border-border-default rounded-2xl p-6">
+            <div className="text-[18px] mb-2">🗑️</div>
+            <h3 className="text-[15px] font-bold text-text-heading mb-1">Kill</h3>
+            <p className="text-[13px] text-text-muted">If a candidate doesn't fit, say so and we'll remove the page in the next pass.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
